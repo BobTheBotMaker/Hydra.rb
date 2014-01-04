@@ -1,4 +1,4 @@
 Hydra.rb
 ========
 
-The Ruby version
+The Ruby version of my toy project
