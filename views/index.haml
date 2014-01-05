@@ -1,0 +1,28 @@
+!!! XML
+!!!
+%html
+  %head
+    %title Myspace
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/bootstrap/css/bootstrap.min.css"}
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/stylesheets/style.css"}
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/jqwidgets/styles/jqx.base.css"}
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/jqwidgets/styles/jqx.summer.css"}
+    %script{:type => "text/javascript", :src => "/js/myscript.js"}
+    %script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "/bootstrap/js/bootstrap.min.js"}
+    %script{:type => "text/javascript", :src => "/javascripts/segment-display.js"}
+    %script{:type => "text/javascript", :src => "/jqwidgets/jqxcore.js"}
+    %script{:type => "text/javascript", :src => "/jqwidgets/jqxbuttons.js"}
+    %script{:type => "text/javascript", :src => "/jqwidgets/jqxslider.js"}
+    %script{:type => "text/javascript", :src => "/javascripts/HydraDisplay.js"}
+  %body
+    %h1 I am the international space station
+    %p Sign my guestbook
+    .row
+      .col-md-4.well-lg{ :style => "width: 350px; height: 200px"}
+        .well-lg{:style => "width: 300px; height: 150px; background: rgb(36, 30, 30)"}
+          %canvas{:id => "display1v", :style => "width: 100%; display: block"}
+          :javascript
+            display1v = HydraDisplay("display1v", "#ff2c0f", "#331605")
+    :javascript
+      setupDisplay(fayeClient, display1v);
