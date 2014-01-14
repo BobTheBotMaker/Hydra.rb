@@ -1,17 +1,29 @@
+require 'thin'
+require 'eventmachine'
+require './HydraGUI'
 
-require 'sinatra'
-require 'haml'
-require 'json'
+EM.run do
+  server  = 'thin'
+  host    = '0.0.0.0'
+  port    = ENV['PORT'] || '4567'
+  web_app = HydraGUI::Hydra.new
 
-set :haml, :format => :html5
-set :public_folder, File.dirname(__FILE__) + '/public'
+  # Start some background tasks here...
 
-get '/' do
-  haml :index
-end
+  EM.add_periodic_timer(1200) do
+    # Do a repeating task here...
+  end
 
-get '/display1/v' do
-  content_type :json
-  sleep(10)
-  {:value => "88.88"}.to_json
+  dispatch = Rack::Builder.app do
+    map '/' do
+      run web_app
+    end
+  end
+
+  Rack::Server.start({
+      :app    => dispatch,
+      :server => server,
+      :Host   => host,
+      :Port   => port
+  })
 end
