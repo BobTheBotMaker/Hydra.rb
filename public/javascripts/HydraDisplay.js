@@ -27,10 +27,12 @@ function HydraDisplay(canvasId, colorOn, colorOff, display) {
   };
 }
 
-function setupDisplay(fayeClient, displayOpts) {
-  fayeClient.subscribe('/' + displayOpts.channel, function(message) {
-    displayOpts.display.setValue(message[displayOpts.measures]);
-  });
+function setupDisplay(serverURL, displayOpts){
+  (function poll(){
+    $.ajax({ url: serverURL + '/' + displayOpts.channel + '/' + displayOpts.measures, success: function(data, displayOpts){
+      displayOpts.display.setValue("99.99")
+    }, dataType: "json", complete: poll, timeout: 30000 });
+  })();
 }
 
 function setupSlider(sliderId) {
