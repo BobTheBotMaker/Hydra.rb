@@ -7,6 +7,7 @@ module HydraGUI
   class Hydra < Sinatra::Base
     set :haml, :format => :html5
     set :public_folder, File.dirname(__FILE__) + '/public'
+    enable :logging
 
     get '/' do
       haml :index
@@ -15,7 +16,7 @@ module HydraGUI
     get '/display1/v' do
       content_type :json
       sleep(10)
-      {:value => "88.88"}
+      {:value => "88.88"}.to_json
     end
   end
 end

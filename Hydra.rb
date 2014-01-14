@@ -8,10 +8,12 @@ EM.run do
   port    = ENV['PORT'] || '4567'
   web_app = HydraGUI::Hydra.new
 
+  count = 0
   # Start some background tasks here...
 
-  EM.add_periodic_timer(1200) do
-    # Do a repeating task here...
+  EM.add_periodic_timer(10) do
+    count += 1
+    puts "hi #{count}"
   end
 
   dispatch = Rack::Builder.app do
