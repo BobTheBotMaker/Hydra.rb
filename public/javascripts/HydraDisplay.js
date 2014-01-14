@@ -29,9 +29,18 @@ function HydraDisplay(canvasId, colorOn, colorOff, display) {
 
 function setupDisplay(serverURL, displayOpts){
   (function poll(){
-    $.ajax({ url: serverURL + '/' + displayOpts.channel + '/' + displayOpts.measures, success: function(data, displayOpts){
-      displayOpts.display.setValue("99.99")
-    }, dataType: "json", complete: poll, timeout: 30000 });
+    $.ajax({
+      url: serverURL + '/' + displayOpts.channel + '/' + displayOpts.measures,
+      success: function(data){
+        displayOpts.display.setValue(data.value);
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log('error: ' + textStatus + " " + errorThrown);
+      },
+      dataType: "json",
+      complete: poll,
+      timeout: 30000
+    });
   })();
 }
 

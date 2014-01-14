@@ -13,5 +13,5 @@ end
 get '/display1/v' do
   content_type :json
   sleep(10)
-  {:value => "9999"}
+  {:value => "88.88"}.to_json
 end
