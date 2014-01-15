@@ -7,6 +7,7 @@
     %link{:type => "text/css", :rel => "stylesheet", :href => "/stylesheets/style.css"}
     %link{:type => "text/css", :rel => "stylesheet", :href => "/jqwidgets/styles/jqx.base.css"}
     %link{:type => "text/css", :rel => "stylesheet", :href => "/jqwidgets/styles/jqx.summer.css"}
+    %script{:type => "text/javascript", :src => "http://localhost:3000/faye/client.js"}
     %script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
     %script{:type => "text/javascript", :src => "/bootstrap/js/bootstrap.min.js"}
     %script{:type => "text/javascript", :src => "/javascripts/segment-display.js"}
@@ -24,5 +25,5 @@
           :javascript
             display1v = HydraDisplay("display1v", "#ff2c0f", "#331605")
     :javascript
-      hydraServerURL = "http://localhost:4567";
-      setupDisplay(hydraServerURL, display1v);
+      fayeClient = new Faye.Client('http://localhost:3000/faye');
+      setupDisplay(fayeClient, display1v);

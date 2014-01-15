@@ -7,3 +7,7 @@ gem 'sinatra', '~> 1.4.4'
 gem 'haml' 
 gem 'thin'
 gem "json", "~> 1.8.1"
+
+gem "faye", "~> 1.0.1"
+
+gem "foreman", "~> 0.63.0"
