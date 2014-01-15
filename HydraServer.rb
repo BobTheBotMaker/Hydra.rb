@@ -9,6 +9,9 @@ EM.run do
   port    = ENV['PORT'] || '4567'
   web_app = HydraGUI::Hydra.new
 
+  Signal.trap("INT")  { EventMachine.stop }
+  Signal.trap("TERM") { EventMachine.stop }
+
   client = Faye::Client.new('http://localhost:3000/faye')
   count = 0.0
 
