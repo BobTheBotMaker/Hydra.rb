@@ -1,13 +1,15 @@
 module Packet
-  @@header_bytes = [0x73, 0x6E, 0x70]
+  HEADER_BYTES = [0x73, 0x6E, 0x70]
 
   class Parser
+    attr_reader :packet, :step, :emitter_callback
 
-    def initialize
-      @currentState = ReadStart.new
+    def initialize(callback)
+      @current_state = ReadStart.new
       @consumed = false
       @packet = Array.new
       @step = 0
+      @emitter_callback = callback
     end
 
     def save(byte)
@@ -15,19 +17,23 @@ module Packet
       @consumed = true
     end
 
-    def resetStep
+    def clear_packet
+      @packet.clear
+    end
+
+    def reset_step
       @step = 0
     end
 
-    def markConsumed
+    def mark_consumed
       @consumed = true
     end
 
     def parse(byte)
       @consumed = false
-      until @consumed do
-        @step++
-        @currentState.handle(byte, self)
+      until @consumed
+        @step += 1
+        @current_state = @current_state.handle(byte, self)
       end
     end
 
@@ -35,20 +41,21 @@ module Packet
 
   class ResetParser
     def handle(byte,context)
-      context.packet.clear
-      context.resetStep
+      context.clear_packet
+      context.reset_step
       return(ReadStart.new)
     end
   end
 
   class ReadStart
     def handle(byte, context)
-      if byte == Packet::header_bytes[0]
+      if byte == Packet::HEADER_BYTES[0]
         context.save(byte)
-        context.resetStep
-        context.markConsumed
+        context.reset_step
+        context.mark_consumed
         return (ReadNew.new)
       else
+        context.mark_consumed
         return (ResetParser.new)
       end
     end
@@ -56,9 +63,9 @@ module Packet
 
   class ReadNew
     def handle(byte, context)
-      if byte == Packet::header_bytes[1] && context.step == 1
+      if byte == Packet::HEADER_BYTES[1] && context.step == 1
         context.save(byte)
-        context.resetStep
+        context.reset_step
         return (ReadPacket.new)
       else
         return (ResetParser.new)
@@ -68,9 +75,9 @@ module Packet
 
   class ReadPacket
     def handle(byte, context)
-      if byte == Packet::header_bytes[2] && context.step == 1
+      if byte == Packet::HEADER_BYTES[2] && context.step == 1
         context.save(byte)
-        context.resetStep
+        context.reset_step
         return (ReadToEnd.new)
       else
         return (ResetParser.new)
@@ -84,7 +91,7 @@ module Packet
       if context.step < 20
         return(ReadToEnd.new)
       else
-        context.emitterCallback(context.packet)
+        context.emitter_callback.call(context.packet)
         return(ResetParser.new)
       end
     end
