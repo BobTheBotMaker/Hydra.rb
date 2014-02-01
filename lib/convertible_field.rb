@@ -6,19 +6,19 @@ module BitFields
     end
 
     def to_s
-      return(@bits.join(''))
+      @bits.join('')
     end
 
     def to_number
-      ret = 0
-      index = @bits.length
+      sum = 0
+      reversed = @bits.reverse
 
-     while index < @bits.length do
-       if @bits[index]
-         ret += index ** 2
-       end
-     end
-    puts "Ret: #{ret}"
+      reversed.each_with_index { |bit, index|
+        if bit == 1
+          sum += 2 ** index
+        end
+      }
+      return sum
     end
 
   end
