@@ -8,6 +8,10 @@ describe BitFields::ConvertibleField do
     @cf = BitFields::ConvertibleField.new(@bit_field)
   end
 
+  it 'should store and return an array' do
+    @cf.bits.must_equal @bit_field
+  end
+
   it 'should convert to string' do
     result = '11100101'
     as_string = @cf.to_s

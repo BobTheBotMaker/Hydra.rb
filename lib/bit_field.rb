@@ -11,7 +11,7 @@ module BitFields
 
       structure.each_key{ |key|
         field_data = data[@index, structure[key]]
-        @bit_field.send("#{key}=".to_sym, field_data)
+        @bit_field.send("#{key}=".to_sym, ConvertibleField.new(field_data))
         @index += structure[key]
       }
     end

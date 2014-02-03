@@ -1,5 +1,6 @@
 module BitFields
   class ConvertibleField
+    attr_reader :bits
 
     def initialize(bits)
       @bits = bits
