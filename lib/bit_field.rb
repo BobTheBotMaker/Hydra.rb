@@ -16,9 +16,21 @@ module BitFields
       }
     end
 
-    def self.from_string(structure, data)
+    def self.from_bit_string(structure, data)
       tmp = data.split('').map { |i| i.to_i }
       BitField.new(structure, tmp)
+    end
+
+    def self.from_int_array(structure, data)
+      binary_data = []
+
+      data.each do |i|
+        binary_string = '%08b' % i
+        binary_array = binary_string.split('').map { |i| i.to_i }
+        binary_data = binary_data.concat(binary_array)
+      end
+
+      BitField.new(structure, binary_data)
     end
   end
 end
