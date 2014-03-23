@@ -1,4 +1,5 @@
 require 'eventmachine'
+require 'em-serialport'
 require 'faye'
 require 'thin'
 require './HydraGUI'
@@ -26,6 +27,13 @@ EM.run do
     publication.errback do |error|
       puts 'There was a problem: ' + error.message
     end
+  end
+
+  serial = EventMachine.open_serial('/dev/tty.SLAB_USBtoUART', 9600, 8, 1, 0)
+  serial.send_data ':b\r\n'
+
+  serial.on_data do |data|
+    puts "Data #{data}"
   end
 
   dispatch = Rack::Builder.app do

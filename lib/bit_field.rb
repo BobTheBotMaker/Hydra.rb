@@ -29,7 +29,6 @@ module BitFields
         binary_array = binary_string.split('').map { |i| i.to_i }
         binary_data = binary_data.concat(binary_array)
       end
-
       BitField.new(structure, binary_data)
     end
   end
