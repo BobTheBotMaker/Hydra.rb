@@ -11,15 +11,7 @@ module BitFields
     end
 
     def to_number
-      sum = 0
-      reversed = @bits.reverse
-
-      reversed.each_with_index { |bit, index|
-        if bit == 1
-          sum += 2 ** index
-        end
-      }
-      return sum
+      ('%d' % '0B'.concat(bits.join(''))).to_i
     end
 
   end
